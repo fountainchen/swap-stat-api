@@ -15,7 +15,7 @@ import java.util.List;
 
 @Api(tags = "swap")
 @RestController
-@RequestMapping("v2/swap")
+@RequestMapping("swap")
 public class SwapController {
 
     @Autowired
@@ -33,7 +33,7 @@ public class SwapController {
     @ApiOperation("get swap transaction list")
     @GetMapping("/transactions/token/{network}")
     public List<SwapTransaction> swapTransactionsListByToken(@PathVariable("network") String network,
-                                                             @RequestParam(value = "token", required = true) String token,
+                                                             @RequestParam(value = "token") String token,
                                                              @RequestParam(value = "count", required = false, defaultValue = "20") int count,
                                                              @RequestParam(value = "start_id", required = false, defaultValue = "0") int startId,
                                                              @RequestParam("filter") String filter) {
@@ -43,7 +43,7 @@ public class SwapController {
     @ApiOperation("get swap transaction list")
     @GetMapping("/transactions/pool/{network}")
     public List<SwapTransaction> swapTransactionsListByPool(@PathVariable("network") String network,
-                                                            @RequestParam(value = "pool_name", required = true) String poolName,
+                                                            @RequestParam(value = "pool_name") String poolName,
                                                             @RequestParam(value = "count", required = false, defaultValue = "20") int count,
                                                             @RequestParam(value = "start_id", required = false, defaultValue = "0") int startId,
                                                             @RequestParam("filter") String filter) throws IOException {
@@ -58,7 +58,7 @@ public class SwapController {
     }
 
     @ApiOperation("get token stat by token name")
-    @GetMapping("/token/{network}/{token_name}")
+    @GetMapping("/token/{network}/{token}")
     public TokenStat getTokenStat(@PathVariable("network") String network, @PathVariable("token") String token) {
         return swapService.getTokenStat(network, token);
     }
