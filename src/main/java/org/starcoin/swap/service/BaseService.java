@@ -11,40 +11,41 @@ import org.starcoin.swap.repository.barnard.BarnardSwapPoolStatRepository;
 import org.starcoin.swap.repository.barnard.BarnardSwapStatRepository;
 import org.starcoin.swap.repository.barnard.BarnardSwapTransactionRepository;
 import org.starcoin.swap.repository.barnard.BarnardTokenStatRepository;
-import org.starcoin.swap.repository.main.MainSwapPoolStatRepository;
-import org.starcoin.swap.repository.main.MainSwapStatRepository;
-import org.starcoin.swap.repository.main.MainSwapTransactionRepository;
-import org.starcoin.swap.repository.main.MainTokenStatRepository;
+//import org.starcoin.swap.repository.main.MainSwapPoolStatRepository;
+//import org.starcoin.swap.repository.main.MainSwapStatRepository;
+//import org.starcoin.swap.repository.main.MainSwapTransactionRepository;
+//import org.starcoin.swap.repository.main.MainTokenStatRepository;
 
 @Service
 public class BaseService {
     @Autowired
     private BarnardSwapTransactionRepository barnardSwapTransactionRepository;
-    @Autowired
-    private MainSwapTransactionRepository mainSwapTransactionRepository;
+//    @Autowired
+//    private MainSwapTransactionRepository mainSwapTransactionRepository;
 
     @Autowired
     private BarnardSwapPoolStatRepository barnardSwapPoolStatRepository;
-    @Autowired
-    private MainSwapPoolStatRepository mainSwapPoolStatRepository;
+//    @Autowired
+//    private MainSwapPoolStatRepository mainSwapPoolStatRepository;
 
     @Autowired
     private BarnardSwapStatRepository barnardSwapStatRepository;
-    @Autowired
-    private MainSwapStatRepository mainSwapStatRepository;
+//    @Autowired
+//    private MainSwapStatRepository mainSwapStatRepository;
 
     @Autowired
     private BarnardTokenStatRepository barnardTokenStatRepository;
-    @Autowired
-    private MainTokenStatRepository mainTokenStatRepository;
+//    @Autowired
+//    private MainTokenStatRepository mainTokenStatRepository;
 
     SwapPoolStatRepository getSwapPoolStatRepository(String network) {
         StarcoinNetwork starcoinNetwork = StarcoinNetwork.fromValue(network);
         if (starcoinNetwork == StarcoinNetwork.barnard) {
             return barnardSwapPoolStatRepository;
-        } else if (starcoinNetwork == StarcoinNetwork.main) {
-            return mainSwapPoolStatRepository;
         }
+//        else if (starcoinNetwork == StarcoinNetwork.main) {
+//            return mainSwapPoolStatRepository;
+//        }
         return null;
     }
 
@@ -53,9 +54,10 @@ public class BaseService {
         StarcoinNetwork starcoinNetwork = StarcoinNetwork.fromValue(network);
         if (starcoinNetwork == StarcoinNetwork.barnard) {
             return barnardSwapTransactionRepository;
-        } else if (starcoinNetwork == StarcoinNetwork.main) {
-            return mainSwapTransactionRepository;
         }
+//        else if (starcoinNetwork == StarcoinNetwork.main) {
+//            return mainSwapTransactionRepository;
+//        }
         return null;
     }
 
@@ -63,9 +65,10 @@ public class BaseService {
         StarcoinNetwork starcoinNetwork = StarcoinNetwork.fromValue(network);
         if (starcoinNetwork == StarcoinNetwork.barnard) {
             return barnardSwapStatRepository;
-        } else if (starcoinNetwork == StarcoinNetwork.main) {
-            return mainSwapStatRepository;
         }
+//        else if (starcoinNetwork == StarcoinNetwork.main) {
+//            return mainSwapStatRepository;
+//        }
         return null;
     }
 
@@ -73,9 +76,10 @@ public class BaseService {
         StarcoinNetwork starcoinNetwork = StarcoinNetwork.fromValue(network);
         if (starcoinNetwork == StarcoinNetwork.barnard) {
             return barnardTokenStatRepository;
-        } else if (starcoinNetwork == StarcoinNetwork.main) {
-            return mainTokenStatRepository;
         }
+//        else if (starcoinNetwork == StarcoinNetwork.main) {
+//            return mainTokenStatRepository;
+//        }
         return null;
     }
 }
