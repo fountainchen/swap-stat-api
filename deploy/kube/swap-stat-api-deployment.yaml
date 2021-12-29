@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: swap-stat-api
-          image: starcoin/starcoin_scan:sha-a4c29bf
+          image: fountainchen/swap-stat-api:sha-c23ed39
           ports:
             - containerPort: 8800
           env:
@@ -29,5 +29,3 @@ spec:
                 secretKeyRef:
                   name: postgresql-starcoin-yu
                   key: password
-            - name: MAIN_DS_URL
-              value: "jdbc:postgresql://starcoin-pg.c0bz9kehdvnb.ap-northeast-1.rds.amazonaws.com/starcoin?currentSchema=main"
