@@ -33,7 +33,6 @@ public class BarnardPersistenceConfiguration {
     @Qualifier("barnardDataSource")
     private DataSource barnardDataSource;
 
-    @Primary
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource.barnard")
     public DataSource barnardDataSource() {
@@ -46,7 +45,6 @@ public class BarnardPersistenceConfiguration {
     }
 
     @Bean
-    @Primary
     public LocalContainerEntityManagerFactoryBean barnardEntityManagerFactory(EntityManagerFactoryBuilder builder) {
         return builder
                 .dataSource(barnardDataSource)
@@ -56,7 +54,6 @@ public class BarnardPersistenceConfiguration {
                 .build();
     }
 
-    @Primary
     @Bean
     public PlatformTransactionManager barnardTransactionManager(EntityManagerFactoryBuilder builder) {
         return new JpaTransactionManager(barnardEntityManagerFactory(builder).getObject());
