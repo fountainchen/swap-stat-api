@@ -14,9 +14,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
+import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
@@ -42,6 +44,11 @@ public class BarnardPersistenceConfiguration {
     private Map<String, String> getVendorProperties() {
         jpaProperties.setDatabase(Database.POSTGRESQL);
         return jpaProperties.getProperties();
+    }
+
+    @Bean
+    public EntityManagerFactoryBuilder entityManagerFactoryBuilder() {
+        return new EntityManagerFactoryBuilder(new HibernateJpaVendorAdapter(), new HashMap<>(), null);
     }
 
     @Bean
