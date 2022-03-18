@@ -26,7 +26,7 @@ public class SwapController {
     public List<SwapTransaction> swapTransactionsList(@PathVariable("network") String network,
                                                       @RequestParam(value = "count", required = false, defaultValue = "20") int count,
                                                       @RequestParam(value = "start_id", required = false, defaultValue = "0") int startId,
-                                                      @RequestParam("filter") String filter) {
+                                                      @RequestParam(value = "filter", required = false, defaultValue = "all") String filter) {
         return swapService.swapTransactionsList(network, count, startId, filter);
     }
 
@@ -36,7 +36,7 @@ public class SwapController {
                                                              @RequestParam(value = "token") String token,
                                                              @RequestParam(value = "count", required = false, defaultValue = "20") int count,
                                                              @RequestParam(value = "start_id", required = false, defaultValue = "0") int startId,
-                                                             @RequestParam("filter") String filter) {
+                                                             @RequestParam(value = "filter", required = false, defaultValue = "all") String filter) {
         return swapService.swapTransactionsListByTokenName(network, token, count, startId, filter);
     }
 
@@ -46,7 +46,7 @@ public class SwapController {
                                                             @RequestParam(value = "pool_name") String poolName,
                                                             @RequestParam(value = "count", required = false, defaultValue = "20") int count,
                                                             @RequestParam(value = "start_id", required = false, defaultValue = "0") int startId,
-                                                            @RequestParam("filter") String filter) throws IOException {
+                                                            @RequestParam(value = "filter", required = false, defaultValue = "all") String filter) throws IOException {
         return swapService.swapTransactionsListByPoolName(network, poolName, count, startId, filter);
     }
 
@@ -80,9 +80,9 @@ public class SwapController {
     }
 
     @ApiOperation("get token pool stat by name")
-    @GetMapping("/token_pool_stats/{network}/{pool_name}")
+    @GetMapping("/token_pool_stats/{network}")
     public SwapPoolStat getTokenPoolStat(@PathVariable("network") String network,
-                                         @PathVariable("pool_name") String poolName) {
+                                         @RequestParam("pool_name") String poolName) {
         return swapService.getTokenPoolStat(network, poolName);
     }
 
