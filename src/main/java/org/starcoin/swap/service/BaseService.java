@@ -3,10 +3,7 @@ package org.starcoin.swap.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.starcoin.swap.constant.StarcoinNetwork;
-import org.starcoin.swap.repository.SwapPoolStatRepository;
-import org.starcoin.swap.repository.SwapStatRepository;
-import org.starcoin.swap.repository.SwapTransactionRepository;
-import org.starcoin.swap.repository.TokenStatRepository;
+import org.starcoin.swap.repository.*;
 import org.starcoin.swap.repository.barnard.BarnardSwapPoolStatRepository;
 import org.starcoin.swap.repository.barnard.BarnardSwapStatRepository;
 import org.starcoin.swap.repository.barnard.BarnardSwapTransactionRepository;
@@ -37,13 +34,20 @@ public class BaseService {
     private BarnardTokenStatRepository barnardTokenStatRepository;
     @Autowired
     private MainTokenStatRepository mainTokenStatRepository;
+    @Autowired
+    private TokenPriceRepository barnardTokenPriceRepository;
+    @Autowired
+    private TokenPriceRepository mainTokenPriceRepository;
+    @Autowired
+    private PoolFeeStatRepository barnardPoolFeeStatRepository;
+    @Autowired
+    private PoolFeeStatRepository mainPoolFeeStatRepository;
 
     SwapPoolStatRepository getSwapPoolStatRepository(String network) {
         StarcoinNetwork starcoinNetwork = StarcoinNetwork.fromValue(network);
         if (starcoinNetwork == StarcoinNetwork.barnard) {
             return barnardSwapPoolStatRepository;
-        }
-        else if (starcoinNetwork == StarcoinNetwork.main) {
+        } else if (starcoinNetwork == StarcoinNetwork.main) {
             return mainSwapPoolStatRepository;
         }
         return null;
@@ -54,8 +58,7 @@ public class BaseService {
         StarcoinNetwork starcoinNetwork = StarcoinNetwork.fromValue(network);
         if (starcoinNetwork == StarcoinNetwork.barnard) {
             return barnardSwapTransactionRepository;
-        }
-        else if (starcoinNetwork == StarcoinNetwork.main) {
+        } else if (starcoinNetwork == StarcoinNetwork.main) {
             return mainSwapTransactionRepository;
         }
         return null;
@@ -65,8 +68,7 @@ public class BaseService {
         StarcoinNetwork starcoinNetwork = StarcoinNetwork.fromValue(network);
         if (starcoinNetwork == StarcoinNetwork.barnard) {
             return barnardSwapStatRepository;
-        }
-        else if (starcoinNetwork == StarcoinNetwork.main) {
+        } else if (starcoinNetwork == StarcoinNetwork.main) {
             return mainSwapStatRepository;
         }
         return null;
@@ -76,9 +78,28 @@ public class BaseService {
         StarcoinNetwork starcoinNetwork = StarcoinNetwork.fromValue(network);
         if (starcoinNetwork == StarcoinNetwork.barnard) {
             return barnardTokenStatRepository;
-        }
-        else if (starcoinNetwork == StarcoinNetwork.main) {
+        } else if (starcoinNetwork == StarcoinNetwork.main) {
             return mainTokenStatRepository;
+        }
+        return null;
+    }
+
+    TokenPriceRepository getTokenPriceRepository(String network) {
+        StarcoinNetwork starcoinNetwork = StarcoinNetwork.fromValue(network);
+        if (starcoinNetwork == StarcoinNetwork.barnard) {
+            return barnardTokenPriceRepository;
+        } else if (starcoinNetwork == StarcoinNetwork.main) {
+            return mainTokenPriceRepository;
+        }
+        return null;
+    }
+
+    PoolFeeStatRepository getPoolFeeStatRepository(String network) {
+        StarcoinNetwork starcoinNetwork = StarcoinNetwork.fromValue(network);
+        if (starcoinNetwork == StarcoinNetwork.barnard) {
+            return barnardPoolFeeStatRepository;
+        } else if (starcoinNetwork == StarcoinNetwork.main) {
+            return mainPoolFeeStatRepository;
         }
         return null;
     }

@@ -31,7 +31,7 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("starcoin swap-stat-api doc")
-                .description("Library supports all available Starcoin Swap Stat API calls for all available Starcoin Networks" )
+                .description("Library supports all available Starcoin Swap Stat API calls for all available Starcoin Networks")
                 .contact(new Contact("author", "fountainchen", "fountainchen@yahoo.com"))
                 .version("1.0")
                 .build();

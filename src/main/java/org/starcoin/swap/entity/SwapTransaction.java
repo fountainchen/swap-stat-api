@@ -1,6 +1,8 @@
 package org.starcoin.swap.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import org.starcoin.swap.bean.SwapType;
+import org.starcoin.swap.bean.TokenUtils;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,25 +15,32 @@ import java.math.BigDecimal;
 public class SwapTransaction {
 
     @Column(name = "total_value")
+    @JSONField(name = "total_value")
     private BigDecimal totalValue;
-
     @Column(name = "token_a")
+    @JSONField(name = "token_a")
     private String tokenA;
-
     @Column(name = "amount_a")
+    @JSONField(name = "amount_a")
     private BigDecimal amountA;
     @Column(name = "token_b")
+    @JSONField(name = "token_b")
     private String tokenB;
     @Column(name = "amount_b")
+    @JSONField(name = "amount_b")
     private BigDecimal amountB;
     @Column(name = "account")
+    @JSONField(name = "account")
     private String account;
     @Column(name = "ts")
+    @JSONField(name = "timestamp")
     private long timestamp;
     @Column(name = "swap_type")
+    @JSONField(name = "swap_type")
     private SwapType swapType;
     @Id
     @Column(name = "transaction_hash")
+    @JSONField(name = "transaction_hash")
     private String transactionHash;
 
     public String getTransactionHash() {
@@ -51,7 +60,7 @@ public class SwapTransaction {
     }
 
     public String getTokenA() {
-        return tokenA;
+        return TokenUtils.toShort(tokenA);
     }
 
     public void setTokenA(String tokenA) {
@@ -75,7 +84,7 @@ public class SwapTransaction {
     }
 
     public String getTokenB() {
-        return tokenB;
+        return TokenUtils.toShort(tokenB);
     }
 
     public void setTokenB(String tokenB) {

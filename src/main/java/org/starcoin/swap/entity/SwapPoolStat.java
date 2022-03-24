@@ -89,6 +89,14 @@ public class SwapPoolStat {
         this.id = id;
     }
 
+    public String getPoolName() {
+        return id.getTokenA() + "/" + id.getTokenB();
+    }
+
+    public Date getTimestamp() {
+        return id.getTimestamp();
+    }
+
 }
 
 @Embeddable

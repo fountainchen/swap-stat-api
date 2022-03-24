@@ -1,5 +1,7 @@
 package org.starcoin.swap.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -12,6 +14,7 @@ import java.util.Date;
 public class SwapStat {
     @Id
     @Column(name = "stat_date")
+    @JSONField(name = "timestamp")
     private Date statDate;
     @Column(name = "volume")
     private BigDecimal volume;
