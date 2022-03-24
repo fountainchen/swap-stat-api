@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: swap-stat-api
-          image: starcoin/starcoin_scan:sha-a4c29bf
+          image: fountainchen/swap-stat-api:sha-20c3351
           ports:
             - containerPort: 8800
           env:

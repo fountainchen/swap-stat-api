@@ -78,7 +78,7 @@ public class SwapService {
     public List<TokenStat> getTokenStatList(String network, int page, int count) {
         TokenStatRepository tokenStatRepository = baseService.getTokenStatRepository(network);
         if (tokenStatRepository != null) {
-            tokenStatRepository.findAll(CommonUtils.getOffset(page, count), count);
+            return tokenStatRepository.findAll(CommonUtils.getOffset(page, count), count);
         }
         return null;
     }

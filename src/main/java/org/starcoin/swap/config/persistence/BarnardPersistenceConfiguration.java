@@ -14,9 +14,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
+import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
@@ -33,7 +35,6 @@ public class BarnardPersistenceConfiguration {
     @Qualifier("barnardDataSource")
     private DataSource barnardDataSource;
 
-    @Primary
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource.barnard")
     public DataSource barnardDataSource() {
@@ -46,7 +47,11 @@ public class BarnardPersistenceConfiguration {
     }
 
     @Bean
-    @Primary
+    public EntityManagerFactoryBuilder entityManagerFactoryBuilder() {
+        return new EntityManagerFactoryBuilder(new HibernateJpaVendorAdapter(), new HashMap<>(), null);
+    }
+
+    @Bean
     public LocalContainerEntityManagerFactoryBean barnardEntityManagerFactory(EntityManagerFactoryBuilder builder) {
         return builder
                 .dataSource(barnardDataSource)
@@ -56,7 +61,6 @@ public class BarnardPersistenceConfiguration {
                 .build();
     }
 
-    @Primary
     @Bean
     public PlatformTransactionManager barnardTransactionManager(EntityManagerFactoryBuilder builder) {
         return new JpaTransactionManager(barnardEntityManagerFactory(builder).getObject());
