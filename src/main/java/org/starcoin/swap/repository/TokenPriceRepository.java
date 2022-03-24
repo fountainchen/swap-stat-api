@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.starcoin.swap.entity.TokenPrice;
-import org.starcoin.swap.entity.TokenStat;
 
 import java.util.List;
 

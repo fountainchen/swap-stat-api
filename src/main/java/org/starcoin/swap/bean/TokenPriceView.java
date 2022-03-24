@@ -2,10 +2,8 @@ package org.starcoin.swap.bean;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import org.starcoin.swap.entity.TokenPrice;
-import org.starcoin.swap.entity.TokenStat;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Date;
 
 public class TokenPriceView {
@@ -15,7 +13,7 @@ public class TokenPriceView {
     private Date timestamp;
     @JSONField(name = "price")
     private BigDecimal price;
-    @JSONField(name =  "rate")
+    @JSONField(name = "rate")
     private BigDecimal rate;
 
     public TokenPriceView(String token, Date timestamp, BigDecimal price, BigDecimal rate) {

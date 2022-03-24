@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.starcoin.swap.bean.FilterType;
+import org.starcoin.swap.bean.PoolUtils;
 import org.starcoin.swap.bean.SwapType;
 import org.starcoin.swap.bean.TokenUtils;
 import org.starcoin.swap.entity.*;
@@ -24,11 +25,11 @@ public class SwapService {
     @PostConstruct
     public void initTokenCache() {
         logger.info("init main token");
-        TokenUtils.putCache("main",getAllToken("main"));
-        String stc = TokenUtils.getLongTokenFromCache("main","STC");
+        TokenUtils.putCache("main", getAllToken("main"));
+        String stc = TokenUtils.getLongTokenFromCache("main", "STC");
         logger.info("stc token :" + stc);
         logger.info("init barnard token");
-        TokenUtils.putCache("barnard",getAllToken("barnard"));
+        TokenUtils.putCache("barnard", getAllToken("barnard"));
     }
 
     public List<SwapTransaction> swapTransactionsList(String network, int count, int startId, String filterType) {
@@ -63,10 +64,7 @@ public class SwapService {
     }
 
     public List<SwapTransaction> swapTransactionsListByPoolName(String network, String poolName, int count, int startId, String filter) throws IOException {
-        String[] tokens = poolName.split("/");
-        if (tokens == null || tokens.length != 2) {
-            return null;
-        }
+        String[] tokens = PoolUtils.splitAndToLongToken(network, poolName);
         String tokenX = tokens[0].trim();
         String tokenY = tokens[1].trim();
         FilterType filterType = FilterType.fromValue(filter);
@@ -106,9 +104,10 @@ public class SwapService {
         }
         return null;
     }
+
     public List<TokenPrice> getTokenPriceList(String network, String tokenName, int page, int count) {
         TokenPriceRepository tokenPriceRepository = baseService.getTokenPriceRepository(network);
-        if(tokenPriceRepository != null) {
+        if (tokenPriceRepository != null) {
             return tokenPriceRepository.findAll(CommonUtils.getOffset(page, count), count);
         }
         logger.warn("tokenPriceRepository is null: " + network + " token: " + tokenName);
@@ -118,21 +117,17 @@ public class SwapService {
     public List<SwapPoolStat> getTokenPoolStatList(String network, int page, int count) {
         SwapPoolStatRepository swapPoolStatRepository = baseService.getSwapPoolStatRepository(network);
         if (swapPoolStatRepository != null) {
-            return swapPoolStatRepository.findAll(CommonUtils.getOffset(page, count), count);
+            //todo sum result by page and count parameter for more token in future
+            return swapPoolStatRepository.sum();
         }
         return null;
     }
 
     public SwapPoolStat getTokenPoolStat(String network, String poolName) {
-        String[] tokens = poolName.split("/");
-        if (tokens == null || tokens.length != 2) {
-            return null;
-        }
-        String tokenX = tokens[0].trim();
-        String tokenY = tokens[1].trim();
+        String[] tokens = PoolUtils.splitAndToLongToken(network, poolName);
         SwapPoolStatRepository swapPoolStatRepository = baseService.getSwapPoolStatRepository(network);
         if (swapPoolStatRepository != null) {
-            return swapPoolStatRepository.find(tokenX, tokenY);
+            return swapPoolStatRepository.sumByToken(tokens[0], tokens[1]);
         }
         return null;
     }
@@ -141,6 +136,17 @@ public class SwapService {
         SwapPoolStatRepository swapPoolStatRepository = baseService.getSwapPoolStatRepository(network);
         if (swapPoolStatRepository != null) {
             return swapPoolStatRepository.findAll(CommonUtils.getOffset(page, count), count, tokenName);
+        }
+        return null;
+    }
+
+    public List<PoolFeeStat> getPoolFeeStatList(String network, String poolName, int page, int count) {
+        PoolFeeStatRepository poolFeeStatRepository = baseService.getPoolFeeStatRepository(network);
+        if (poolFeeStatRepository != null) {
+            String[] tokens = PoolUtils.splitAndToLongToken(network, poolName);
+            String tokenX = tokens[0].trim();
+            String tokenY = tokens[1].trim();
+            return poolFeeStatRepository.findAll(tokenX, tokenY, CommonUtils.getOffset(page, count), count);
         }
         return null;
     }

@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.starcoin.swap.bean.SwapPoolStatView;
 import org.starcoin.swap.bean.TokenPriceView;
 import org.starcoin.swap.bean.TokenStatView;
 import org.starcoin.swap.bean.TokenUtils;
@@ -45,7 +46,11 @@ public class SwapController {
                                                              @RequestParam(value = "count", required = false, defaultValue = "20") int count,
                                                              @RequestParam(value = "start_id", required = false, defaultValue = "0") int startId,
                                                              @RequestParam(value = "filter", required = false, defaultValue = "all") String filter) {
-        return swapService.swapTransactionsListByTokenName(network, token, count, startId, filter);
+        String longToken = TokenUtils.toLong(network, token);
+        if (longToken == null) {
+            return null;
+        }
+        return swapService.swapTransactionsListByTokenName(network, longToken, count, startId, filter);
     }
 
     @ApiOperation("get swap transaction list")
@@ -64,7 +69,7 @@ public class SwapController {
                                                 @RequestParam(value = "count", required = false, defaultValue = "20") int count) {
         List<TokenStat> tokenStats = swapService.getTokenStatList(network, page, count);
         List<TokenStatView> tokenStatViews = new ArrayList<>();
-        for (TokenStat tokenStat: tokenStats) {
+        for (TokenStat tokenStat : tokenStats) {
             tokenStatViews.add(TokenStatView.fromEntity(tokenStat));
         }
         return tokenStatViews;
@@ -74,11 +79,11 @@ public class SwapController {
     @GetMapping("/token/{network}/{token}")
     public TokenStatView getTokenStat(@PathVariable("network") String network, @PathVariable("token") String token) {
         String longToken = TokenUtils.toLong(network, token);
-        if(longToken == null) {
+        if (longToken == null) {
             return null;
         }
         TokenStat tokenStat = swapService.getTokenStat(network, longToken);
-        if(tokenStat != null) {
+        if (tokenStat != null) {
             return TokenStatView.fromEntity(tokenStat);
         }
         return null;
@@ -87,13 +92,13 @@ public class SwapController {
     @ApiOperation("get token price by token name")
     @GetMapping("/token/price/{network}/{token}/page/{page}")
     public List<TokenPriceView> getTokenPrice(@PathVariable("network") String network, @PathVariable("token") String token,
-                                             @RequestParam(value = "count", required = false, defaultValue = "7") int count,
-                                             @PathVariable int page) {
+                                              @RequestParam(value = "count", required = false, defaultValue = "7") int count,
+                                              @PathVariable int page) {
         String longToken = TokenUtils.toLong(network, token);
-        if(longToken != null) {
+        if (longToken != null) {
             List<TokenPrice> tokenPriceList = swapService.getTokenPriceList(network, token, page, count);
             List<TokenPriceView> tokenPriceViews = new ArrayList<>();
-            for (TokenPrice tokenPrice: tokenPriceList) {
+            for (TokenPrice tokenPrice : tokenPriceList) {
                 tokenPriceViews.add(TokenPriceView.fromEntity(tokenPrice));
             }
             return tokenPriceViews;
@@ -103,31 +108,53 @@ public class SwapController {
 
     @ApiOperation("get token pool stat list")
     @GetMapping("/pool/{network}/page/{page}")
-    public List<SwapPoolStat> getTokenPoolStatList(@PathVariable("network") String network, @PathVariable("page") int page,
-                                                   @RequestParam(value = "count", required = false, defaultValue = "20") int count) {
-        return swapService.getTokenPoolStatList(network, page, count);
+    public List<SwapPoolStatView> getTokenPoolStatList(@PathVariable("network") String network, @PathVariable("page") int page,
+                                                       @RequestParam(value = "count", required = false, defaultValue = "20") int count) {
+        List<SwapPoolStat> swapPoolStatList = swapService.getTokenPoolStatList(network, page, count);
+        if (swapPoolStatList == null) {
+            return null;
+        }
+        List<SwapPoolStatView> views = new ArrayList<>();
+        for (SwapPoolStat stat : swapPoolStatList) {
+            views.add(SwapPoolStatView.fromEntity(stat));
+        }
+        return views;
     }
 
     @ApiOperation("get token pool stat list by token name")
     @GetMapping("/pool/stats/{network}/{token_name}/page/{page}")
-    public List<SwapPoolStat> getTokenPoolStatListByTokenName(@PathVariable("network") String network, @PathVariable("token_name") String tokenName,
-                                                              @PathVariable("page") int page,
-                                                              @RequestParam(value = "count", required = false, defaultValue = "20") int count) {
-        return swapService.getTokenPoolStatListByTokenName(network, tokenName, page, count);
+    public List<SwapPoolStatView> getTokenPoolStatListByTokenName(@PathVariable("network") String network, @PathVariable("token_name") String tokenName,
+                                                                  @PathVariable("page") int page,
+                                                                  @RequestParam(value = "count", required = false, defaultValue = "20") int count) {
+        String longToken = TokenUtils.toLong(network, tokenName);
+        if (longToken != null) {
+            List<SwapPoolStat> swapPoolStatList = swapService.getTokenPoolStatListByTokenName(network, longToken, page, count);
+            List<SwapPoolStatView> views = new ArrayList<>();
+            for (SwapPoolStat stat : swapPoolStatList) {
+                views.add(SwapPoolStatView.fromEntity(stat));
+            }
+            return views;
+        }
+        return null;
     }
 
     @ApiOperation("get token pool stat by name")
     @GetMapping("/pool/stats/{network}")
-    public SwapPoolStat getTokenPoolStat(@PathVariable("network") String network,
-                                         @RequestParam("pool_name") String poolName) {
-        return swapService.getTokenPoolStat(network, poolName);
+    public SwapPoolStatView getTokenPoolStat(@PathVariable("network") String network,
+                                             @RequestParam("pool_name") String poolName) {
+        SwapPoolStat swapPoolStat = swapService.getTokenPoolStat(network, poolName);
+        if (swapPoolStat != null) {
+            return SwapPoolStatView.fromEntity(swapPoolStat);
+        }
+        return null;
     }
 
     @ApiOperation("get token pool stat by name")
     @GetMapping("/pool/fees/{network}/page/{page}")
-    public SwapPoolStat getPoolFees(@PathVariable("network") String network,
-                                    @RequestParam("pool_name") String poolName, @PathVariable String page) {
-        return null;
+    public List<PoolFeeStat> getPoolFees(@PathVariable("network") String network,
+                                         @RequestParam("pool_name") String poolName, @PathVariable int page,
+                                         @RequestParam(value = "count", required = false, defaultValue = "20") int count) {
+        return swapService.getPoolFeeStatList(network, poolName, page, count);
     }
 
     @ApiOperation("get token pool stat by name")
