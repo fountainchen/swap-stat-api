@@ -95,6 +95,10 @@ public class TokenStat {
         return tokenStatId.getToken();
     }
 
+    public Date getTimestamp() {
+        return tokenStatId.getTimestamp();
+    }
+
     @Override
     public String toString() {
         return "TokenStat{" +
