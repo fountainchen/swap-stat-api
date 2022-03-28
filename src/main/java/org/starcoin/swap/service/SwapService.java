@@ -135,7 +135,7 @@ public class SwapService {
     public List<SwapPoolStat> getTokenPoolStatListByTokenName(String network, String tokenName, int page, int count) {
         SwapPoolStatRepository swapPoolStatRepository = baseService.getSwapPoolStatRepository(network);
         if (swapPoolStatRepository != null) {
-            return swapPoolStatRepository.findAll(CommonUtils.getOffset(page, count), count, tokenName);
+            return swapPoolStatRepository.sumByOneToken(tokenName);
         }
         return null;
     }
