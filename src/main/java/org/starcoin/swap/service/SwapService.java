@@ -140,6 +140,15 @@ public class SwapService {
         return null;
     }
 
+    public List<SwapPoolStat> getTokenPoolStatListByPoolName(String network, String poolName, int page, int count) {
+        String[] tokens = PoolUtils.splitAndToLongToken(network, poolName);
+        SwapPoolStatRepository swapPoolStatRepository = baseService.getSwapPoolStatRepository(network);
+        if (swapPoolStatRepository != null) {
+            return swapPoolStatRepository.find(tokens[0], tokens[1], CommonUtils.getOffset(page, count), count);
+        }
+        return null;
+    }
+
     public List<PoolFeeStat> getPoolFeeStatList(String network, String poolName, int page, int count) {
         PoolFeeStatRepository poolFeeStatRepository = baseService.getPoolFeeStatRepository(network);
         if (poolFeeStatRepository != null) {
