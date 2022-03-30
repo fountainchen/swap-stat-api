@@ -138,13 +138,29 @@ public class SwapController {
         return null;
     }
 
-    @ApiOperation("get token pool stat by name")
+    @ApiOperation("get token pool stat by pool name")
     @GetMapping("/pool/stats/{network}")
     public SwapPoolStatView getTokenPoolStat(@PathVariable("network") String network,
                                              @RequestParam("pool_name") String poolName) {
         SwapPoolStat swapPoolStat = swapService.getTokenPoolStat(network, poolName);
         if (swapPoolStat != null) {
             return SwapPoolStatView.fromEntity(swapPoolStat);
+        }
+        return null;
+    }
+
+    @ApiOperation("get token pool list by pool name")
+    @GetMapping("/pool/list/{network}/page/{page}")
+    public List<SwapPoolStatView> getPoolStatListByPoolName(@PathVariable("network") String network,
+                                             @RequestParam("pool_name") String poolName, @PathVariable int page,
+                                             @RequestParam(value = "count", required = false, defaultValue = "20") int count) {
+        List<SwapPoolStat> swapPoolStatList = swapService.getTokenPoolStatListByPoolName(network, poolName, page, count);
+        if(swapPoolStatList != null && swapPoolStatList.size() >0) {
+            List<SwapPoolStatView> result = new ArrayList<>();
+            for (SwapPoolStat stat: swapPoolStatList) {
+                result.add(SwapPoolStatView.fromEntity(stat));
+            }
+            return result;
         }
         return null;
     }

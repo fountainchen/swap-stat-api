@@ -4,16 +4,18 @@ import com.alibaba.fastjson.annotation.JSONField;
 import org.starcoin.swap.bean.SwapType;
 import org.starcoin.swap.bean.TokenUtils;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "swap_transaction")
 public class SwapTransaction {
 
+    @SequenceGenerator(name = "seq_swap_txn_id", allocationSize = 1, initialValue = 1, sequenceName = "swap_transaction_swap_seq_seq")
+    @GeneratedValue(generator = "seq_swap_txn_id", strategy = GenerationType.SEQUENCE)
+    @Column(name = "swap_seq")
+    @JSONField(name = "id")
+    private long id;
     @Column(name = "total_value")
     @JSONField(name = "total_value")
     private BigDecimal totalValue;
@@ -114,6 +116,14 @@ public class SwapTransaction {
 
     public void setSwapType(SwapType swapType) {
         this.swapType = swapType;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     @Override
