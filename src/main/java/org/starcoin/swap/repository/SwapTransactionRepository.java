@@ -35,45 +35,45 @@ public interface SwapTransactionRepository extends JpaRepository<SwapTransaction
                                             @Param("start_seq") int startSeq,
                                             @Param("count") int count);
 
-    @Query(value = "select * from swap_transaction  where (swap_type=:swap_type1 or swap_type=:swap_type2) and swap_seq>:start_seq order by swap_seq desc limit :count", nativeQuery = true)
+    @Query(value = "select * from swap_transaction  where (swap_type=:swap_type1 or swap_type=:swap_type2) and swap_seq<:start_seq order by swap_seq desc limit :count", nativeQuery = true)
     public List<SwapTransaction> findByTypes(@Param("swap_type1") int swapType1,
                                              @Param("swap_type2") int swapType2,
                                              @Param("start_seq") int startSeq,
                                              @Param("count") int count);
 
-    @Query(value = "select * from swap_transaction  where swap_seq>:start_seq order by swap_seq desc limit :count", nativeQuery = true)
+    @Query(value = "select * from swap_transaction  where swap_seq<:start_seq order by swap_seq desc limit :count", nativeQuery = true)
     public List<SwapTransaction> find(@Param("start_seq") int startSeq, @Param("count") int count);
 
-    @Query(value = "select * from swap_transaction  where swap_seq>:start_seq and (token_a=:token_name or token_b=:token_name) order by swap_seq desc limit :count", nativeQuery = true)
+    @Query(value = "select * from swap_transaction  where swap_seq<:start_seq and (token_a=:token_name or token_b=:token_name) order by swap_seq desc limit :count", nativeQuery = true)
     public List<SwapTransaction> findByTokenName(@Param("token_name") String tokenName,
                                                  @Param("start_seq") int startSeq, @Param("count") int count);
 
-    @Query(value = "select * from swap_transaction  where swap_type=:swap_type and swap_seq>:start_seq and (token_a=:token_name or token_b=:token_name) order by swap_seq desc limit :count", nativeQuery = true)
+    @Query(value = "select * from swap_transaction  where swap_type=:swap_type and swap_seq<:start_seq and (token_a=:token_name or token_b=:token_name) order by swap_seq desc limit :count", nativeQuery = true)
     public List<SwapTransaction> findByTypeAndTokenName(@Param("token_name") String tokenName,
                                                         @Param("swap_type") int swapType,
                                                         @Param("start_seq") int startSeq,
                                                         @Param("count") int count);
 
-    @Query(value = "select * from swap_transaction  where (swap_type=:swap_type1 or swap_type=:swap_type2)  and swap_seq>:start_seq and (token_a=:token_name or token_b=:token_name) order by swap_seq desc limit :count", nativeQuery = true)
+    @Query(value = "select * from swap_transaction  where (swap_type=:swap_type1 or swap_type=:swap_type2)  and swap_seq<:start_seq and (token_a=:token_name or token_b=:token_name) order by swap_seq desc limit :count", nativeQuery = true)
     public List<SwapTransaction> findByTypesAndTokenName(@Param("token_name") String tokenName,
                                                          @Param("swap_type1") int swapType1,
                                                          @Param("swap_type2") int swapType2,
                                                          @Param("start_seq") int startSeq,
                                                          @Param("count") int count);
 
-    @Query(value = "select * from swap_transaction  where swap_seq>:start_seq and ((token_a=:token_x_name and token_b=:token_y_name) or (token_a=:token_y_name and token_b=:token_x_name)) order by swap_seq desc limit :count", nativeQuery = true)
+    @Query(value = "select * from swap_transaction  where swap_seq<:start_seq and ((token_a=:token_x_name and token_b=:token_y_name) or (token_a=:token_y_name and token_b=:token_x_name)) order by swap_seq desc limit :count", nativeQuery = true)
     public List<SwapTransaction> findByTokenPair(@Param("token_x_name") String tokenXName,
                                                  @Param("token_y_name") String tokenYName,
                                                  @Param("start_seq") int startSeq, @Param("count") int count);
 
-    @Query(value = "select * from swap_transaction  where swap_type=:swap_type and swap_seq>:start_seq and ((token_a=:token_x_name and token_b=:token_y_name) or (token_a=:token_y_name and token_b=:token_x_name)) order by swap_seq desc limit :count", nativeQuery = true)
+    @Query(value = "select * from swap_transaction  where swap_type=:swap_type and swap_seq<:start_seq and ((token_a=:token_x_name and token_b=:token_y_name) or (token_a=:token_y_name and token_b=:token_x_name)) order by swap_seq desc limit :count", nativeQuery = true)
     public List<SwapTransaction> findByTypeAndTokenPair(@Param("token_x_name") String tokenXName,
                                                         @Param("token_y_name") String tokenYName,
                                                         @Param("swap_type") int swapType,
                                                         @Param("start_seq") int startSeq,
                                                         @Param("count") int count);
 
-    @Query(value = "select * from swap_transaction  where (swap_type=:swap_type1 or swap_type=:swap_type2) and swap_seq>:start_seq and ((token_a=:token_x_name and token_b=:token_y_name) or (token_a=:token_y_name and token_b=:token_x_name)) order by swap_seq desc limit :count", nativeQuery = true)
+    @Query(value = "select * from swap_transaction  where (swap_type=:swap_type1 or swap_type=:swap_type2) and swap_seq<:start_seq and ((token_a=:token_x_name and token_b=:token_y_name) or (token_a=:token_y_name and token_b=:token_x_name)) order by swap_seq desc limit :count", nativeQuery = true)
     public List<SwapTransaction> findByTypesAndTokenPair(@Param("token_x_name") String tokenXName,
                                                          @Param("token_y_name") String tokenYName,
                                                          @Param("swap_type1") int swapType1,

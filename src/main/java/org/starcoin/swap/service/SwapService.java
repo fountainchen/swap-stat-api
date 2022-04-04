@@ -33,6 +33,7 @@ public class SwapService {
     }
 
     public List<SwapTransaction> swapTransactionsList(String network, int count, int startId, String filterType) {
+        if(startId == 0) startId = Integer.MAX_VALUE;
         FilterType filterType1 = FilterType.fromValue(filterType);
         SwapTransactionRepository swapTransactionRepository = baseService.getSwapTransactionRepository(network);
         if (swapTransactionRepository != null) {
@@ -48,6 +49,7 @@ public class SwapService {
     }
 
     public List<SwapTransaction> swapTransactionsListByTokenName(String network, String tokenName, int count, int startId, String filter) {
+        if(startId == 0) startId = Integer.MAX_VALUE;
         FilterType filterType = FilterType.fromValue(filter);
         SwapTransactionRepository swapTransactionRepository = baseService.getSwapTransactionRepository(network);
         if (swapTransactionRepository != null) {
@@ -63,7 +65,8 @@ public class SwapService {
         return null;
     }
 
-    public List<SwapTransaction> swapTransactionsListByPoolName(String network, String poolName, int count, int startId, String filter) throws IOException {
+    public List<SwapTransaction> swapTransactionsListByPoolName(String network, String poolName, int count, int startId, String filter) {
+        if(startId == 0) startId = Integer.MAX_VALUE;
         String[] tokens = PoolUtils.splitAndToLongToken(network, poolName);
         String tokenX = tokens[0].trim();
         String tokenY = tokens[1].trim();
