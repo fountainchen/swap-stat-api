@@ -96,9 +96,9 @@ public class SwapController {
                                               @PathVariable int page) {
         String longToken = TokenUtils.toLong(network, token);
         if (longToken != null) {
-            List<TokenPrice> tokenPriceList = swapService.getTokenPriceList(network, token, page, count);
+            List<TokenPriceStat> tokenPriceList = swapService.getTokenPriceList(network, longToken, page, count);
             List<TokenPriceView> tokenPriceViews = new ArrayList<>();
-            for (TokenPrice tokenPrice : tokenPriceList) {
+            for (TokenPriceStat tokenPrice : tokenPriceList) {
                 tokenPriceViews.add(TokenPriceView.fromEntity(tokenPrice));
             }
             return tokenPriceViews;

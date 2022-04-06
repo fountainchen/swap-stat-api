@@ -35,9 +35,9 @@ public class BaseService {
     @Autowired
     private MainTokenStatRepository mainTokenStatRepository;
     @Autowired
-    private TokenPriceRepository barnardTokenPriceRepository;
+    private TokenPriceStatRepository barnardTokenPriceStatRepository;
     @Autowired
-    private TokenPriceRepository mainTokenPriceRepository;
+    private TokenPriceStatRepository mainTokenPriceStatRepository;
     @Autowired
     private PoolFeeStatRepository barnardPoolFeeStatRepository;
     @Autowired
@@ -84,12 +84,12 @@ public class BaseService {
         return null;
     }
 
-    TokenPriceRepository getTokenPriceRepository(String network) {
+    TokenPriceStatRepository getTokenPriceStatRepository(String network) {
         StarcoinNetwork starcoinNetwork = StarcoinNetwork.fromValue(network);
         if (starcoinNetwork == StarcoinNetwork.barnard) {
-            return barnardTokenPriceRepository;
+            return barnardTokenPriceStatRepository;
         } else if (starcoinNetwork == StarcoinNetwork.main) {
-            return mainTokenPriceRepository;
+            return mainTokenPriceStatRepository;
         }
         return null;
     }

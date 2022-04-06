@@ -108,10 +108,10 @@ public class SwapService {
         return null;
     }
 
-    public List<TokenPrice> getTokenPriceList(String network, String tokenName, int page, int count) {
-        TokenPriceRepository tokenPriceRepository = baseService.getTokenPriceRepository(network);
-        if (tokenPriceRepository != null) {
-            return tokenPriceRepository.findAll(CommonUtils.getOffset(page, count), count);
+    public List<TokenPriceStat> getTokenPriceList(String network, String tokenName, int page, int count) {
+        TokenPriceStatRepository tokenPriceStatRepository = baseService.getTokenPriceStatRepository(network);
+        if (tokenPriceStatRepository != null) {
+            return tokenPriceStatRepository.findAllByTokenName(tokenName, CommonUtils.getOffset(page, count), count);
         }
         logger.warn("tokenPriceRepository is null: " + network + " token: " + tokenName);
         return null;
