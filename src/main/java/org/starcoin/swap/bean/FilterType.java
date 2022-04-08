@@ -20,6 +20,17 @@ public enum FilterType {
         return FilterType.All;
     }
 
+    public static FilterType fromSwapType(SwapType swapType) {
+        if(swapType == SwapType.SwapExactTokenForToken || swapType == SwapType.SwapTokenForExactToken) {
+            return FilterType.Swap;
+        } else if(swapType == SwapType.AddLiquidity) {
+            return FilterType.Add;
+        } else if(swapType == SwapType.RemoveLiquidity) {
+            return FilterType.Remove;
+        }
+        return FilterType.All;
+    }
+
     public static int getIndex(String value) {
         return fromValue(value).ordinal();
     }
