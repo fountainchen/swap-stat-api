@@ -13,7 +13,6 @@ import org.starcoin.swap.repository.*;
 import org.starcoin.swap.utils.CommonUtils;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -41,8 +40,10 @@ public class SwapService {
                 return swapTransactionRepository.find(startId, count);
             } else if (filterType1 == FilterType.Swap) {
                 return swapTransactionRepository.findByTypes(SwapType.SwapExactTokenForToken.ordinal(), SwapType.SwapTokenForExactToken.ordinal(), startId, count);
-            } else if (filterType1 == FilterType.Add || filterType1 == FilterType.Remove) {
-                return swapTransactionRepository.findByType(filterType1.ordinal(), startId, count);
+            } else if (filterType1 == FilterType.Add ){
+                return swapTransactionRepository.findByType(SwapType.AddLiquidity.ordinal(), startId, count);
+            } else if (filterType1 == FilterType.Remove) {
+                return swapTransactionRepository.findByType(SwapType.RemoveLiquidity.ordinal(), startId, count);
             }
         }
         return null;
@@ -57,10 +58,11 @@ public class SwapService {
                 return swapTransactionRepository.findByTokenName(tokenName, startId, count);
             } else if (filterType == FilterType.Swap) {
                 return swapTransactionRepository.findByTypesAndTokenName(tokenName, SwapType.SwapExactTokenForToken.ordinal(), SwapType.SwapTokenForExactToken.ordinal(), startId, count);
-            } else if (filterType == FilterType.Add || filterType == FilterType.Remove) {
-                return swapTransactionRepository.findByTypeAndTokenName(tokenName, filterType.ordinal(), startId, count);
+            } else if (filterType == FilterType.Add) {
+                return swapTransactionRepository.findByTypeAndTokenName(tokenName, SwapType.AddLiquidity.ordinal(), startId, count);
+            } else if(filterType == FilterType.Remove) {
+                return swapTransactionRepository.findByTypeAndTokenName(tokenName, SwapType.RemoveLiquidity.ordinal(), startId, count);
             }
-
         }
         return null;
     }
@@ -77,8 +79,10 @@ public class SwapService {
                 return swapTransactionRepository.findByTokenPair(tokenX, tokenY, startId, count);
             } else if (filterType == FilterType.Swap) {
                 return swapTransactionRepository.findByTypesAndTokenPair(tokenX, tokenY, SwapType.SwapExactTokenForToken.ordinal(), SwapType.SwapTokenForExactToken.ordinal(), startId, count);
-            } else if (filterType == FilterType.Add || filterType == FilterType.Remove) {
-                return swapTransactionRepository.findByTypeAndTokenPair(tokenX, tokenY, filterType.ordinal(), startId, count);
+            } else if (filterType == FilterType.Add ){
+                return swapTransactionRepository.findByTypeAndTokenPair(tokenX, tokenY, SwapType.AddLiquidity.ordinal(), startId, count);
+            } else if (filterType == FilterType.Remove) {
+                return swapTransactionRepository.findByTypeAndTokenPair(tokenX, tokenY, SwapType.RemoveLiquidity.ordinal(), startId, count);
             }
         }
         return null;

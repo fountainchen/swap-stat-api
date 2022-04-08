@@ -30,7 +30,7 @@ public interface SwapTransactionRepository extends JpaRepository<SwapTransaction
     TokenVolumeDTO getPoolVolumeB(@Param("tokenA") String tokenA, @Param("tokenB") String tokenB,
                                   @Param("start_time") long startTime, @Param("end_time") long endTime);
 
-    @Query(value = "select * from swap_transaction  where swap_type=:swap_type and swap_seq>:start_seq order by swap_seq desc limit :count", nativeQuery = true)
+    @Query(value = "select * from swap_transaction  where swap_type=:swap_type and swap_seq<:start_seq order by swap_seq desc limit :count", nativeQuery = true)
     public List<SwapTransaction> findByType(@Param("swap_type") int swapType,
                                             @Param("start_seq") int startSeq,
                                             @Param("count") int count);
