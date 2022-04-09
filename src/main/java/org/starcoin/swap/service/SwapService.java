@@ -96,10 +96,17 @@ public class SwapService {
         return null;
     }
 
-    public List<TokenStat> getTokenStatList(String network, int page, int count) {
+    public List<TokenStat> getTokenStatList(String network,String tokenName, int page, int count) {
         TokenStatRepository tokenStatRepository = baseService.getTokenStatRepository(network);
         if (tokenStatRepository != null) {
-            return tokenStatRepository.sum();
+            if(tokenName == null || tokenName.length() < 1) {
+                return tokenStatRepository.sum();
+            }
+            String longToken = TokenUtils.toLong(network, tokenName);
+            if (longToken != null) {
+                return tokenStatRepository.findByTokenName(longToken, CommonUtils.getOffset(page, count), count);
+            }
+            logger.warn("token long name not exist: {}, {}", network, tokenName);
         }
         return null;
     }

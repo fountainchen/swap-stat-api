@@ -66,8 +66,9 @@ public class SwapController {
     @ApiOperation("get token stat list")
     @GetMapping("/token/{network}/page/{page}")
     public List<TokenStatView> getTokenStatList(@PathVariable("network") String network, @PathVariable("page") int page,
-                                                @RequestParam(value = "count", required = false, defaultValue = "20") int count) {
-        List<TokenStat> tokenStats = swapService.getTokenStatList(network, page, count);
+                                                @RequestParam(value = "count", required = false, defaultValue = "20") int count,
+                                                @RequestParam(value = "token", required = false) String tokenName) {
+        List<TokenStat> tokenStats = swapService.getTokenStatList(network, tokenName, page, count);
         List<TokenStatView> tokenStatViews = new ArrayList<>();
         for (TokenStat tokenStat : tokenStats) {
             tokenStatViews.add(TokenStatView.fromEntity(tokenStat));

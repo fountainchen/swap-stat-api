@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: swap-stat-api
-          image: fountainchen/swap-stat-api:sha-c2b0142
+          image: fountainchen/swap-stat-api:sha-32c6492
           ports:
             - containerPort: 8800
           env:

@@ -11,6 +11,9 @@ public interface TokenStatRepository extends JpaRepository<TokenStat, String> {
     @Query(value = "select * from token_swap_day_stat limit :count offset :offset", nativeQuery = true)
     List<TokenStat> findAll(@Param("offset") int offset, @Param("count") int count);
 
+    @Query(value = "select * from token_swap_day_stat where token_name=:token_name order by ts desc limit :count offset :offset", nativeQuery = true)
+    List<TokenStat> findByTokenName(@Param("token_name") String tokenName, @Param("offset") int offset, @Param("count") int count);
+
     @Query(value = "select * from token_swap_day_stat where token_name=:token_name order by ts limit 1", nativeQuery = true)
     TokenStat find(@Param("token_name") String tokenName);
 
