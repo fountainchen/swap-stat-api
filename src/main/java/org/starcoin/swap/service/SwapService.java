@@ -100,7 +100,7 @@ public class SwapService {
         TokenStatRepository tokenStatRepository = baseService.getTokenStatRepository(network);
         if (tokenStatRepository != null) {
             if(tokenName == null || tokenName.length() < 1) {
-                return tokenStatRepository.sum();
+                return tokenStatRepository.lastDayStat();
             }
             String longToken = TokenUtils.toLong(network, tokenName);
             if (longToken != null) {
@@ -114,7 +114,7 @@ public class SwapService {
     public TokenStat getTokenStat(String network, String tokenName) {
         TokenStatRepository tokenStatRepository = baseService.getTokenStatRepository(network);
         if (tokenStatRepository != null) {
-            return tokenStatRepository.sumByToken(tokenName);
+            return tokenStatRepository.lastStatByToken(tokenName);
         }
         return null;
     }
@@ -132,7 +132,7 @@ public class SwapService {
         SwapPoolStatRepository swapPoolStatRepository = baseService.getSwapPoolStatRepository(network);
         if (swapPoolStatRepository != null) {
             //todo sum result by page and count parameter for more token in future
-            return swapPoolStatRepository.sum();
+            return swapPoolStatRepository.lastDayStat();
         }
         return null;
     }
@@ -141,7 +141,7 @@ public class SwapService {
         String[] tokens = PoolUtils.splitAndToLongToken(network, poolName);
         SwapPoolStatRepository swapPoolStatRepository = baseService.getSwapPoolStatRepository(network);
         if (swapPoolStatRepository != null) {
-            return swapPoolStatRepository.sumByToken(tokens[0], tokens[1]);
+            return swapPoolStatRepository.lastStatByToken(tokens[0], tokens[1]);
         }
         return null;
     }
@@ -149,7 +149,7 @@ public class SwapService {
     public List<SwapPoolStat> getTokenPoolStatListByTokenName(String network, String tokenName, int page, int count) {
         SwapPoolStatRepository swapPoolStatRepository = baseService.getSwapPoolStatRepository(network);
         if (swapPoolStatRepository != null) {
-            return swapPoolStatRepository.sumByOneToken(tokenName);
+            return swapPoolStatRepository.lastStatByOneToken(tokenName);
         }
         return null;
     }
