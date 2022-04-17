@@ -167,8 +167,8 @@ public class SwapService {
         PoolFeeStatRepository poolFeeStatRepository = baseService.getPoolFeeStatRepository(network);
         if (poolFeeStatRepository != null) {
             String[] tokens = PoolUtils.splitAndToLongToken(network, poolName);
-            String tokenX = tokens[0].trim();
-            String tokenY = tokens[1].trim();
+            String tokenX = tokens[1].trim();
+            String tokenY = tokens[0].trim();
             return poolFeeStatRepository.findAll(tokenX, tokenY, CommonUtils.getOffset(page, count), count);
         }
         return null;
