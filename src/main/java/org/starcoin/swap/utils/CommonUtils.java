@@ -3,6 +3,8 @@ package org.starcoin.swap.utils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.data.domain.Pageable;
 
+import java.math.BigDecimal;
+
 public class CommonUtils {
 
     public static byte hexToByte(String inHex) {
@@ -48,5 +50,9 @@ public class CommonUtils {
             return offset;
         }
         return 0;
+    }
+
+    public static BigDecimal divideScalingFactor(BigDecimal source) {
+        return source.movePointLeft((int) Math.log10(1000000000));
     }
 }

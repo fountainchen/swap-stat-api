@@ -7,6 +7,8 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import static org.starcoin.swap.utils.CommonUtils.divideScalingFactor;
+
 @Entity
 @Table(name = "pool_fee_day_stat")
 public class PoolFeeStat {
@@ -35,7 +37,7 @@ public class PoolFeeStat {
     }
 
     public BigDecimal getFeesAmount() {
-        return feesAmount;
+        return divideScalingFactor(feesAmount);
     }
 
     public void setFeesAmount(BigDecimal feesAmount) {
@@ -43,7 +45,7 @@ public class PoolFeeStat {
     }
 
     public BigDecimal getFees() {
-        return fees;
+        return divideScalingFactor(fees);
     }
 
     public void setFees(BigDecimal fees) {
