@@ -9,6 +9,6 @@ import java.util.Date;
 import java.util.List;
 
 public interface SwapStatRepository extends JpaRepository<SwapStat, Date> {
-    @Query(value = "select * from swap_day_stat limit :count offset :offset", nativeQuery = true)
+    @Query(value = "select * from swap_day_stat order by stat_date desc limit :count offset :offset", nativeQuery = true)
     List<SwapStat> findAll(@Param("offset") int offset, @Param("count") int count);
 }
