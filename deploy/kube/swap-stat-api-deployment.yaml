@@ -16,12 +16,12 @@ spec:
     spec:
       containers:
         - name: swap-stat-api
-          image: fountainchen/swap-stat-api:sha-457797d
+          image: fountainchen/swap-stat-api:sha-131aa68
           ports:
             - containerPort: 8800
           env:
             - name: DS_URL
-              value: "jdbc:postgresql://starcoin-pg.c0bz9kehdvnb.ap-northeast-1.rds.amazonaws.com/starcoin?currentSchema=barnard"
+              value: "jdbc:postgresql://database-1.c0bz9kehdvnb.ap-northeast-1.rds.amazonaws.com/starcoin?currentSchema=barnard"
             - name: DB_USER_NAME
               value: "starcoin"
             - name: DB_PWD
@@ -30,4 +30,4 @@ spec:
                   name: postgresql-starcoin-yu
                   key: password
             - name: MAIN_DS_URL
-              value: "jdbc:postgresql://starcoin-pg.c0bz9kehdvnb.ap-northeast-1.rds.amazonaws.com/starcoin?currentSchema=main"
+              value: "jdbc:postgresql://database-1.c0bz9kehdvnb.ap-northeast-1.rds.amazonaws.com/starcoin?currentSchema=main"
